@@ -11,19 +11,19 @@ on:
 jobs:
   compile:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/epicgames/unreal-engine:dev-slim-5.7.4
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GHCR_TOKEN }}
-      options: --user root
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Compile (UnrealBuildTool)
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Compile in UE5 container
         run: |
-          /home/ue4/UnrealEngine/Engine/Build/BatchFiles/Linux/Build.sh \
-            speaki_backrooms Linux Development \
-            "$GITHUB_WORKSPACE/speaki_backrooms/speaki_backrooms.uproject" \
-            -WaitMutex -NoHotReloadFromIDE
+          docker run --rm \
+            -v $GITHUB_WORKSPACE:/workspace \
+            ghcr.io/epicgames/unreal-engine:dev-slim-5.7.4 \
+            /home/ue4/UnrealEngine/Engine/Build/BatchFiles/Linux/Build.sh \
+              speaki_backrooms Linux Development \
+              /workspace/speaki_backrooms/speaki_backrooms.uproject \
+              -WaitMutex -NoHotReloadFromIDE
