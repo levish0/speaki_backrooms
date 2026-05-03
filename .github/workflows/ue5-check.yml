@@ -22,7 +22,7 @@ jobs:
 
       - name: Compile (UnrealBuildTool)
         run: |
-          /home/ue4/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool \
+          /home/ue4/UnrealEngine/Engine/Build/BatchFiles/Linux/Build.sh \
             speaki_backrooms Linux Development \
             "$GITHUB_WORKSPACE/speaki_backrooms/speaki_backrooms.uproject" \
             -WaitMutex -NoHotReloadFromIDE
