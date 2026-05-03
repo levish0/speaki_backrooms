@@ -1,0 +1,28 @@
+name: UE5 Check
+
+on:
+  push:
+    paths:
+      - "speaki_backrooms/**"
+  pull_request:
+    paths:
+      - "speaki_backrooms/**"
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/epicgames/unreal-engine:dev-slim-5.7.4
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GHCR_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile (UnrealBuildTool)
+        run: |
+          /home/ue4/UnrealEngine/Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool \
+            speaki_backrooms Linux Development \
+            "$GITHUB_WORKSPACE/speaki_backrooms/speaki_backrooms.uproject" \
+            -WaitMutex -NoHotReloadFromIDE
