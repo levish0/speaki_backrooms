@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: pages
+        working-directory: page
 
     steps:
       - name: Checkout code
