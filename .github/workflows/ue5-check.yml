@@ -16,6 +16,7 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GHCR_TOKEN }}
+      options: --user root
 
     steps:
       - uses: actions/checkout@v4
